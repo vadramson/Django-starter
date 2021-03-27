@@ -27,7 +27,9 @@ My Django Starter App
 **NB if you need a new project package**
 	
 Cd to Django-starter and run the command
+
 	\> python remove_version.py
+	
 This will remove all the versions of the packages used create a new file name new_requirements.txt 
 
 Run
@@ -40,6 +42,7 @@ Run
 	This will install all the necessary packages
 	
 **You are set to go**
+
 To Generate requirements file, enter  the command below
 
 \> pip freeze >> requirements.txt

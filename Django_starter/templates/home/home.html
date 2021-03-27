@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="card" style="width: 18rem;">
+            <img src="{% static 'img/authenticated.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-text">
+                <h3>
+                    Welcome Authenticated User
+                </h3>
+                </p>
+                <h1 class="label label-info" style="font-size: 20px;">
+                    <span>{{ user.get_full_name|default:user.username }}</span>
+                </h1>
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="width: 18rem;">
+            <img src="{% static 'img/unauthenticated.png' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-text">
+                <h4>
+                    Your are not an Authenticated User
+                </h4>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -30,6 +30,11 @@ from core import views
 router = SimpleRouter()
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path(r'home/', views.home, name='home'),
+                  path(r'page1/', views.page1, name='page1'),
+                  # path(r'login/$', auth_views.login, name='login'),
+                  path(r'logout/', views.logout_view, name='logout_user'),
+                  path(r'get_this_town/(?P<pk>\d+)/$', views.get_this_town, name='get_this_town'),
 
                   # API URLs
                   path('base-api/', include('rest_framework.urls', namespace='rest_framework')),

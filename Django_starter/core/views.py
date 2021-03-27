@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
 from django.contrib.auth.models import User, Group
@@ -19,22 +20,24 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+def home(request):
+    return render(request, 'home/home.html')
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+def page1(request):
+    return render(request, 'pages/page1.html')
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return render(request, 'home/home.html')
+
+@login_required
+def get_this_town(request, pk):
+    town = get_object_or_404(Towns, pk=pk)
+    return render(request, 'pages/town.html', {"town": town})
 
 
 def check_token(self, request):
@@ -95,7 +98,6 @@ class HelloView(APIView):
     def get(self, request):
         content = {'message': 'Hello, World!'}
         return Response(content)
-
 
 
 class LoginView(APIView):
