@@ -22,6 +22,8 @@ My Django Starter App
 	\> python manage.py runserver	
 
 	http://127.0.0.1:8000/
+	
+	http://127.0.0.1:8000/base-api/get_users/
 		
 ## Start a new app
 
