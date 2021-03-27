@@ -1,0 +1,53 @@
+{
+"token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+"region" : "Rhone-Aples",
+ "code":  "03"
+}
+
+{
+"token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+"id":2,
+"region" : "Rhone-Aples",
+ "code":  "03"
+}
+
+
+{
+	"token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+	"town": "Savigny",
+	"region" : 1,
+	"code":  "91"
+}
+
+{
+	"token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+	"town": "Paris 14",
+    "id":5,
+	"region" : 1,
+	"code":  "14"
+}
+
+{
+	"token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+	"town": 3,    
+	"agency" : "agency 2",
+	"code":  "Agc 2",
+	"telephone":  "+3365855222",
+	"address":  "13 Rue ABC",
+     "email":  "mail@maol.agc2.com"
+}
+
+{
+        "token" : "a56620a4498136924f8d528a3148c4b3c32103d7",
+        "id": 2,
+        "agency": "Agence  Free",
+        "code": "Agc free",
+        "address": "13 Rue ABC",
+        "telephone": "+3365855222",
+        "email": "mail@maol.agc2.com",
+        "town": 3
+    }
+
+{
+"token" : "a56620a4498136924f8d528a3148c4b3c32103d7"
+}

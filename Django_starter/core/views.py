@@ -20,6 +20,7 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 
 
+# ===================================  WEB Views ===================================
 
 def home(request):
     return render(request, 'home/home.html')
@@ -34,11 +35,14 @@ def logout_view(request):
     logout(request)
     return render(request, 'home/home.html')
 
+
 @login_required
 def get_this_town(request, pk):
     town = get_object_or_404(Towns, pk=pk)
     return render(request, 'pages/town.html', {"town": town})
 
+
+# ===================================  API Views ===================================
 
 def check_token(self, request):
     # token = request.data.get("token")
@@ -90,6 +94,96 @@ class TownsView(APIView):
             towns = Towns.objects.all()
             serializer = TownSerializer(towns, many=True)
             return Response({"towns": serializer.data})
+
+
+class AddRegion(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            serializer = RegionsSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"saved"})
+            else:
+                return Response({"Invalid Serializer"})
+        else:
+            return Response({"Not saved"})
+
+
+class UpdateRegion(APIView):
+    # permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            region = get_object_or_404(Regions, id=request.data.get("id"))
+            region.region = request.data.get("region")
+            region.code = request.data.get("code")
+            region.save()
+            region = get_object_or_404(Regions, id=request.data.get("id"))
+            serializer = RegionsSerializer(region)
+            return Response({"region": serializer.data})
+
+
+class AddTown(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            region = get_object_or_404(Regions, id=request.data.get("region"))
+            town = Towns()
+            town.town = request.data.get("town")
+            town.region = region
+            town.code = request.data.get("code")
+            town.save()
+            serializer = TownSerializer(town)
+            return Response({"town": serializer.data})
+        else:
+            return Response({"Unauthorized"})
+
+
+class UpdateTown(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            town = get_object_or_404(Towns, id=request.data.get("id"))
+            town.region = get_object_or_404(Regions, id=request.data.get("region"))
+            town.town = request.data.get("town")
+            town.code = request.data.get("code")
+            town.save()
+            return Response({"Updated"})
+
+class AddAgence(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            town = get_object_or_404(Towns, id=request.data.get("town"))
+            agence = Agencies()
+            agence.town = town
+            agence.agency = request.data.get("agency")
+            agence.code = request.data.get("code")
+            agence.email = request.data.get("email")
+            agence.address = request.data.get("address")
+            agence.telephone = request.data.get("telephone")
+            agence.save()
+            serializer = AgencySerializer(agence)
+            return Response({"Agence": serializer.data})
+        else:
+            return Response({"Unauthorized"})
+
+
+class UpdateAgence(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            agence = get_object_or_404(Agencies, id=request.data.get("id"))
+            if agence:
+                town = get_object_or_404(Towns, id=request.data.get("town"))
+                agence.town = town
+                agence.agency = request.data.get("agency")
+                agence.code = request.data.get("code")
+                agence.email = request.data.get("email")
+                agence.address = request.data.get("address")
+                agence.telephone = request.data.get("telephone")
+                agence.save()
+                serializer = AgencySerializer(agence)
+                return Response({"Agence": serializer.data})
+            else:
+                return Response({"Agency Unknown"})
+        else:
+            return Response({"Unauthorized"})
 
 
 class HelloView(APIView):

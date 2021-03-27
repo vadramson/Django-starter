@@ -41,6 +41,12 @@ urlpatterns = [
                   path('base-api/login_user/', views.LoginView.as_view(), name='login'),
                   path('base-api/hello/', views.HelloView.as_view(), name='hello'),
                   path('base-api/get_towns/', views.TownsView.as_view(), name='get_towns'),
+                  path('base-api/add_region/', views.AddRegion.as_view(), name='add_region'),
+                  path('base-api/update_region/', views.UpdateRegion.as_view(), name='update_region'),
+                  path('base-api/add_town/', views.AddTown.as_view(), name='add_town'),
+                  path('base-api/update_town/', views.UpdateTown.as_view(), name='update_town'),
+                  path('base-api/add_agence/', views.AddAgence.as_view(), name='add_agence'),
+                  path('base-api/update_agence/', views.UpdateAgence.as_view(), name='update_agence'),
 
                   path('base-api/logout_user/', views.LogoutView.as_view(), name='logout'),
                   path('base-api/get_users/', views.UsersView.as_view(), name='get_users'),

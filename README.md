@@ -23,6 +23,9 @@ My Django Starter App
 
 	http://127.0.0.1:8000/
 		
+## Start a new app
+
+	\> python manage.py	startapp app_name
 	
 **NB if you need a new project package**
 	
