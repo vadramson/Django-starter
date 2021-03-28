@@ -51,3 +51,18 @@ Run
 To Generate requirements file, enter  the command below
 
 \> pip freeze >> requirements.txt
+
+## Reading CSV with csv.reader()
+	import csv
+	.
+	.
+	.
+	
+	 with open(file_to_open, 'r') as csv_file:
+            csv_handler = csv.reader(csv_file)
+
+            with open('new_prices.csv', 'w') as new_csv_file:
+                writing_csv = csv.writer(new_csv_file, delimiter=',')
+
+                for line in csv_handler:
+                        writing_csv.writerow(line)

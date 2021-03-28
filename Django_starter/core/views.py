@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
@@ -18,6 +20,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
+import csv
+
 
 
 # ===================================  WEB Views ===================================
@@ -96,6 +100,14 @@ class TownsView(APIView):
             return Response({"towns": serializer.data})
 
 
+class GetAgence(APIView):
+    def post(self, request):
+        if get_object_or_404(Token, key=request.data.get("token")):
+            agence = Agencies.objects.all().order_by('id')
+            serializer = AgencySerializer(agence, many=True)
+            return Response({"agence": serializer.data})
+
+
 class AddRegion(APIView):
     def post(self, request):
         if get_object_or_404(Token, key=request.data.get("token")):
@@ -107,6 +119,16 @@ class AddRegion(APIView):
                 return Response({"Invalid Serializer"})
         else:
             return Response({"Not saved"})
+
+
+class GetRegions(APIView):
+    def post(self, request):
+        token = request.data.get("token")
+        # print(token)
+        if get_object_or_404(Token, key=token):
+            regions = Regions.objects.all()
+            serializer = RegionsSerializer(regions, many=True)
+            return Response({"regions": serializer.data})
 
 
 class UpdateRegion(APIView):
@@ -147,6 +169,7 @@ class UpdateTown(APIView):
             town.save()
             return Response({"Updated"})
 
+
 class AddAgence(APIView):
     def post(self, request):
         if get_object_or_404(Token, key=request.data.get("token")):
@@ -184,6 +207,23 @@ class UpdateAgence(APIView):
                 return Response({"Agency Unknown"})
         else:
             return Response({"Unauthorized"})
+
+
+class CSVManipulation(APIView):
+    def post(self, request):
+        module_dir = os.path.dirname(__file__)  # get current directory
+        file_path = os.path.join(module_dir, 'CSVFiles')
+        file_to_open = os.path.join(file_path, 'real_estate_price_size.csv')
+        with open(file_to_open, 'r') as csv_file:
+            csv_handler = csv.reader(csv_file)
+
+            with open('new_prices.csv', 'w') as new_csv_file:
+                writing_csv = csv.writer(new_csv_file, delimiter=',')
+
+                for line in csv_handler:
+                        writing_csv.writerow(line)
+        return Response({"READ File Successfully"})
+
 
 
 class HelloView(APIView):
